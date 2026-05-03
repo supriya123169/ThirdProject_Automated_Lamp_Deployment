@@ -17,16 +17,8 @@ resource "aws_security_group" "ports-allow" {
         cidr_blocks = ["0.0.0.0/0"]
     }
 
-    # Jenkins (Port 8080)
+    # Apache port
     ingress {
-        from_port   = 8080
-        to_port     = 8080
-        protocol    = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-    }
-
-     # Apache port
-     ingress {
         from_port = 80
         to_port = 80
         protocol = "tcp"
@@ -91,15 +83,13 @@ resource "aws_instance" "servers" {
 	provisioner "remote-exec" {
 	 	inline = [
 		"sudo hostnamectl set-hostname server.example.com",
-    		"sudo apt update -y",
-    		"sudo apt install -y ansible",
+    	"sudo apt update -y",
+    	"sudo apt install -y ansible",
 		"ansible-galaxy collection install git+https://github.com/lavatech321/DevOps_Projects_Ansible_Collections.git",
-		"ansible-playbook main.yaml -e public_ip=${self.public_ip}",
-		#"ansible-playbook /home/ubuntu/main.yaml",
+		"ansible-playbook /home/ubuntu/main.yaml",
   		]
 	}
 }
-
 
 output "App-Live" {
 	value = "PHP Application Live: http://${aws_instance.servers.public_ip} \n"
@@ -109,10 +99,6 @@ output "EC2-Instance-access-details" {
 	value = "ssh -i ~/.ssh/id_rsa ubuntu@${aws_instance.servers.public_ip} \n"
 }
 
-output "Jenkins-UI" {
-	value = "http://${aws_instance.servers.public_ip}:8080 \n"
-}
-
 output "MYSQL-Credentials" {
-	value = "mysql -uroot -padmin123 \n"
+	value = "mysql -uhotel_user -ppassword123 \n"
 }
