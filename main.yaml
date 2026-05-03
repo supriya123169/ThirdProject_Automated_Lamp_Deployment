@@ -1,0 +1,6 @@
+- name: Simple lamp server installation 
+  hosts: localhost
+  become: yes
+  roles:
+    # invoke ansible lamp server job in jenkins
+    - devops.projects.ansible_lamp_server
