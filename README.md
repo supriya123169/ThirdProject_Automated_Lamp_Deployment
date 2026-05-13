@@ -1,108 +1,105 @@
-# Terraform Jenkins Deployment on AWS EC2
+# 🚀 Hotel Website Deployment using Terraform & Ansible
 
-This project provisions an AWS EC2 instance using Terraform and automatically installs and configures Jenkins for CI/CD usage.
+This project demonstrates automated deployment of a PHP-based hotel website on AWS using Terraform and Ansible.
 
----
-
-## Technologies Used
-
-| Layer          | Technology                        |
-| -------------- | --------------------------------- |
-| Infrastructure | Terraform, AWS EC2 (Amazon Linux) |
-| CI/CD          | Jenkins                           |
+Terraform provisions the AWS EC2 infrastructure, while Ansible automatically installs Apache Web Server, MySQL Database Server, and deploys the PHP hotel website application.
 
 ---
 
-## Project Setup & Usage
+# 📌 Project Overview
 
-### Step 1: Clone the Repository
+This project automates the complete deployment workflow:
 
-```bash
-git clone https://github.com/lavatech321/Terraform_CICD_Deployment.git
-cd Terraform_CICD_Deployment
+1. Terraform launches AWS EC2 instance
+2. Terraform triggers Ansible playbook
+3. Ansible installs Apache Web Server
+4. Ansible installs MySQL Database Server
+5. PHP hotel website code is deployed automatically
+6. Application becomes publicly accessible
+
+---
+
+# 🏗️ Architecture Diagram
+
+```text
+                    ┌────────────────────┐
+                    │     Terraform      │
+                    │────────────────────│
+                    │ Launch AWS EC2     │
+                    └─────────┬──────────┘
+                              │
+                              ▼
+                 ┌────────────────────────┐
+                 │        Ansible         │
+                 │────────────────────────│
+                 │ Install Apache         │
+                 │ Install MySQL          │
+                 │ Deploy PHP Code        │
+                 └─────────┬──────────────┘
+                           │
+        ┌──────────────────┼──────────────────┐
+        ▼                  ▼                  ▼
+┌──────────────┐  ┌────────────────┐  ┌────────────────┐
+│ Apache       │  │ MySQL Server   │  │ PHP Hotel App  │
+│ Web Server   │  │ Database       │  │ Website        │
+└──────────────┘  └────────────────┘  └────────────────┘
+                           │
+                           ▼
+                 ┌────────────────────────┐
+                 │   Hotel Website Live   │
+                 └────────────────────────┘
 ```
 
 ---
 
-### Step 2: Configure AWS Credentials
+# ⚙️ Technologies Used
 
-Open the `terraform.tfvars` file and replace with your AWS credentials:
-
-```hcl
-aws_access_key = "YOUR_ACCESS_KEY"
-aws_secret_key = "YOUR_SECRET_KEY"
-region         = "ap-south-1"
-```
-
-⚠️  Make sure:
-
-* You use a valid AWS IAM user
-* The user has permissions for EC2, security groups, and key pairs
+| Technology | Purpose |
+|------------|----------|
+| Terraform | Infrastructure Provisioning |
+| AWS EC2 | Cloud Hosting |
+| Ansible | Configuration Management |
+| Apache | Web Server |
+| MySQL | Database Server |
+| PHP | Web Application |
+| Linux | Server Environment |
 
 ---
 
-### Step 3: Initialize Terraform
+# 🚀 Deployment Flow
+
+```text
+Terraform Launches AWS EC2
+              │
+              ▼
+Ansible Connects to Server
+              │
+              ├── Install Apache Web Server
+              ├── Install MySQL Database
+              ├── Configure Services
+              └── Deploy PHP Website
+              │
+              ▼
+Hotel Website Live on Public IP
+```
+
+---
+
+# ☁️ Terraform Commands
+
+## Initialize Terraform
 
 ```bash
 terraform init
 ```
 
----
-
-### Step 4: Apply Terraform Configuration
+## Apply Infrastructure
 
 ```bash
 terraform apply --auto-approve
 ```
 
-This will:
-
-* Create an EC2 instance
-* Install Jenkins automatically
-* Configure Jenkins with a default admin user
-
----
-
-### Step 5: Access Jenkins
-
-Once deployment is complete:
-
-* Open your browser:
-
-  ```
-  http://<EC2-PUBLIC-IP>:8080
-  ```
-
-* Login credentials:
-
-  ```
-  Username: admin
-  Password: admin123
-  ```
-
----
-
-## 📌 Notes
-
-* Ensure port **8080** is open in the security group
-* Wait 1–2 minutes after deployment for Jenkins to fully start
-* You can modify instance type and region in `vars.tf` or `terraform.tfvars`
-
----
-
-## Project Purpose
-
-This project demonstrates:
-
-* Infrastructure as Code using Terraform
-* Automated Jenkins setup on AWS
-* Basic CI/CD environment provisioning
-
----
-
-## 🧹 Cleanup (Important)
-
-To destroy the infrastructure and avoid AWS charges:
+## Destroy Infrastructure
 
 ```bash
 terraform destroy --auto-approve
@@ -110,13 +107,43 @@ terraform destroy --auto-approve
 
 ---
 
-## ✅ Outcome
+## 🌐 Application Access
 
-After completion, you will have:
+After successful deployment, access the hotel website:
 
-* A running EC2 instance
-* Jenkins installed and ready
-* A base setup for CI/CD pipelines
+```text
+http://<EC2-PUBLIC-IP>
+```
 
 ---
 
+## 🔐 EC2 Server Access
+
+```bash
+ssh -i ~/.ssh/id_rsa ubuntu@<EC2-PUBLIC-IP>
+```
+
+---
+
+## 🛢️ MySQL Credentials
+
+```bash
+mysql -uhotel_user -ppassword123
+```
+
+---
+
+## 📤 Terraform Output Example
+
+```text
+App-Live:
+PHP Application Live: http://<EC2-PUBLIC-IP>
+
+EC2-Instance-access-details:
+ssh -i ~/.ssh/id_rsa ubuntu@<EC2-PUBLIC-IP>
+
+MYSQL-Credentials:
+mysql -uhotel_user -ppassword123
+```
+
+---
